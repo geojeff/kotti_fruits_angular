@@ -36,16 +36,16 @@ class FruitCategoriesFolderView(object):
     @view_config(context=FruitCategoriesFolder,
                  name='view',
                  permission='view',
-                 renderer='templates/fruit-categories-folder-view.pt')
+                 renderer='templates/view/fruit-categories-folder-view.pt')
     def view(self):
 
         session = DBSession()
         query = session.query(FruitCategory)\
                        .filter(FruitCategory.parent_id == self.context.id)\
                        .order_by(FruitCategory.position)
-        fruit_categeories = query.all()
+        fruit_categories = query.all()
 
-        return {"fruit_categories": fruit_category}
+        return {"fruit_categories": fruit_categories}
 
 
 class FruitCategoryView(object):
@@ -58,7 +58,7 @@ class FruitCategoryView(object):
     @view_config(context=FruitCategory,
                  name='view',
                  permission='view',
-                 renderer='templates/fruit-category-view.pt')
+                 renderer='templates/view/fruit-category-view.pt')
     def view(self):
 
         session = DBSession()
@@ -80,7 +80,7 @@ class FruitView(object):
     @view_config(context=Fruit,
                  name='view',
                  permission='view',
-                 renderer='templates/fruit-view.pt')
+                 renderer='templates/view/fruit-view.pt')
     def view(self):
 
         session = DBSession()

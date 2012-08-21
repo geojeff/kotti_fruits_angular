@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      metal:use-macro="api.macro('kotti:templates/view/master.pt')">
+
+  <article metal:fill-slot="content" class="fruit-categories_folder-view content">
+    <h1>${context.title}</h1>
+    <p class="description">
+      ${context.description}
+    </p>
+    <ul>
+        <li tal:repeat="item context.children">
+          <a href="${request.resource_url(item)}">
+              ${item.title}
+          </a>
+        </li>
+    </ul>
+  </article>
+
+</html>

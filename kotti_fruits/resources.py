@@ -125,7 +125,7 @@ class Fruit(Content):
     total_fat_dv          = Column(Integer(), info='Total Fat (%DV)')
     sodium_mg             = Column(Integer(), info='Sodium (mg)')
     sodium_dv             = Column(Integer(), info='Sodium (%DV)')
-    potassium_g           = Column(Integer(), info='Potassium (mg)')
+    potassium_mg           = Column(Integer(), info='Potassium (mg)')
     potassium_dv          = Column(Integer(), info='Potassium (%DV)')
     total_carbohydrate_g  = Column(Integer(), info='Total Carbohydrate (g)')
     total_carbohydrate_dv = Column(Integer(), info='Total Carbohydrate (%DV)')
@@ -151,7 +151,7 @@ class Fruit(Content):
         addable_to=[u'FruitCategory'],
         )
 
-    def __init__(self, calories=0, calories_from_fat=0, total_fat_g=0, total_fat_dv=0, sodium_mg=0, sodium_dv=0, potassium_g=0, potassium_dv=0, total_carbohydrate_g=0, total_carbohydrate_dv=0, dietary_fiber_g=0, dietary_fiber_dv=0, sugars_g=0, protein_g=0, vitamin_a_dv=0, vitamin_c_dv=0, calcium_dv=0, iron_dv=0, **kwargs):
+    def __init__(self, calories=0, calories_from_fat=0, total_fat_g=0, total_fat_dv=0, sodium_mg=0, sodium_dv=0, potassium_mg=0, potassium_dv=0, total_carbohydrate_g=0, total_carbohydrate_dv=0, dietary_fiber_g=0, dietary_fiber_dv=0, sugars_g=0, protein_g=0, vitamin_a_dv=0, vitamin_c_dv=0, calcium_dv=0, iron_dv=0, **kwargs):
         super(Fruit, self).__init__(**kwargs)
         self.calories              = calories
         self.calories_from_fat     = calories_from_fat
@@ -159,7 +159,7 @@ class Fruit(Content):
         self.total_fat_dv          = total_fat_dv
         self.sodium_mg             = sodium_mg
         self.sodium_dv             = sodium_dv
-        self.potassium_g           = potassium_g
+        self.potassium_mg          = potassium_mg
         self.potassium_dv          = potassium_dv
         self.total_carbohydrate_g  = total_carbohydrate_g
         self.total_carbohydrate_dv = total_carbohydrate_dv
@@ -266,7 +266,7 @@ def populate():
                                       'total_fat_dv': fruit_data[fruit_name]['total_fat_dv'],
                                       'sodium_mg': fruit_data[fruit_name]['sodium_mg'],
                                       'sodium_dv': fruit_data[fruit_name]['sodium_dv'],
-                                      'potassium_g': fruit_data[fruit_name]['potassium_g'],
+                                      'potassium_mg': fruit_data[fruit_name]['potassium_mg'],
                                       'potassium_dv': fruit_data[fruit_name]['potassium_dv'],
                                       'total_carbohydrate_g': fruit_data[fruit_name]['total_carbohydrate_g'],
                                       'total_carbohydrate_dv': fruit_data[fruit_name]['total_carbohydrate_dv'],

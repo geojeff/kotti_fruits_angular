@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      metal:use-macro="api.macro('kotti:templates/view/master.pt')">
+
+  <article metal:fill-slot="content" class="fruit-view content">
+    <h1>${context.title}</h1>
+    <p class="description">
+      ${context.description}
+    </p>
+    <p>Calories: ${context.calories}</p>
+    <p>Calories from fat: ${context.calories_from_fat}</p>
+    <p>Total Fat (g, %DV): (${context.total_fat_g}, ${context.total_fat_dv})</p>
+    <p>Sodium (mg, %DV): (${context.sodium_mg}, ${context.sodium_dv})</p>
+    <p>Potassium (mg, %DV): (${context.potassium_mg}, ${context.potassium_dv})</p>
+    <p>Total Carbohydrate (g, %DV): (${context.total_carbohydrate_g}, ${context.total_carbohydrate_dv})</p>
+    <p>Dietary Fiber (g, %DV): (${context.dietary_fiber_g}, ${context.total_carbohydrate_dv})</p>
+    <p>Sugars (g): ${context.sugars_g}</p>
+    <p>Protein (g): ${context.protein_g}</p>
+    <p>Vitamin A (%DV): ${context.vitamin_a_dv}</p>
+    <p>Vitamin C (%DV): ${context.vitamin_c_dv}</p>
+    <p>Calcium (%DV): ${context.calcium_dv}</p>
+    <p>Iron (%DV): ${context.iron_dv}</p>
+  </article>
+
+</html>
+
