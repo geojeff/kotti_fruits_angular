@@ -13,6 +13,8 @@ from kotti import DBSession
 from kotti.security import get_principals
 from kotti.security import SITE_ACL
 from kotti.resources import Content
+from kotti.resources import Document
+from kotti.populate import populate as kotti_populate
 
 
 class FruitCategoriesFolder(Content):
@@ -22,7 +24,7 @@ class FruitCategoriesFolder(Content):
         name=u'FruitCategoriesFolder',
         title=u'FruitCategoriesFolder',
         add_view=u'add_fruit_categories_folder',
-        addable_to=[u'FruitCategoriesFolder'],  # [TODO] How to do? to root?
+        addable_to=[u'Document', u'FruitCategoriesFolder'],  # [TODO] How to do? to root?
         )
 
     def __init__(self, **kwargs):
@@ -222,11 +224,12 @@ def populate():
     #nodecount = session.query(Content).count()
     go = 1
     if go == 1:
+        kotti_populate()
         #root = Document(parent=None, title=u"My Site")
         #root.__acl__ = SITE_ACL
         #session.add(root)
 
-        #root_document = session.query(Content).filter(Content.parent_id==None).first()
+        root_document = session.query(Content).filter(Content.parent_id==None).first()
 
         #session.delete(root_document)
 
@@ -236,7 +239,7 @@ def populate():
                 FruitCategoriesFolder(name=u"fruit_categories_folder",
                                       title=u"Fruit Categories",
                                       in_navigation=False,
-                                      parent=None)
+                                      parent=root_document)
 
         fruit_categories_folder.__acl__ = SITE_ACL
         session.add(fruit_categories_folder)
@@ -269,21 +272,21 @@ def populate():
             fruit_instances[key].__acl__ = SITE_ACL
             session.add(fruit_instances[key])
 
-    principals = get_principals()
-    if u'admin' not in principals:
-        principals[u'admin'] = {
-            u'name': u'admin',
-            u'password': get_settings()['kotti.secret'],
-            u'title': u"Administrator",
-            u'groups': [u'role:admin'],
-            }
-    if u'test' not in principals:
-        principals[u'test'] = {
-            u'name': u'test',
-           u'password': u'test',
-            u'title': u"Tester",
-            u'groups': [u'role:admin'],
-            }
+#    principals = get_principals()
+#    if u'admin' not in principals:
+#        principals[u'admin'] = {
+#            u'name': u'admin',
+#            u'password': get_settings()['kotti.secret'],
+#            u'title': u"Administrator",
+#            u'groups': [u'role:admin'],
+#            }
+#    if u'test' not in principals:
+#        principals[u'test'] = {
+#            u'name': u'test',
+#           u'password': u'test',
+#            u'title': u"Tester",
+#            u'groups': [u'role:admin'],
+#            }
 
     session.flush()
     transaction.commit()

@@ -11,7 +11,7 @@ def call_populate(event):
 
 def kotti_configure(config):
     config['kotti.includes'] += ' kotti_fruits.views'
-    config['kotti.available_types'] += ' kotti_fruits.resources.FruitCategoriesFolder kotti_fruits.resources.FruitCategory kotti_fruits.resources.Fruit'
+    config['kotti.available_types'] += ' kotti.resources.Document kotti_fruits.resources.FruitCategoriesFolder kotti_fruits.resources.FruitCategory kotti_fruits.resources.Fruit'
 
 
 def include_populator(config):
