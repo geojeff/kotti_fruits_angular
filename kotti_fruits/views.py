@@ -105,14 +105,14 @@ def includeme_edit(config):
         context=FruitCategoriesFolder,
         name='edit',
         permission='edit',
-        renderer='kotti:templates/edit/node.pt',
+        renderer='kotti:templates/edit/master.pt',
     )
 
     config.add_view(
         add_fruit_categories_folder,
         name=FruitCategoriesFolder.type_info.add_view,
         permission='add',
-        renderer='kotti:templates/edit/node.pt',
+        renderer='kotti:templates/edit/add.pt',
     )
 
     config.add_view(
@@ -120,14 +120,14 @@ def includeme_edit(config):
         context=FruitCategory,
         name='edit',
         permission='edit',
-        renderer='kotti:templates/edit/node.pt',
+        renderer='kotti:templates/edit/master.pt',
     )
 
     config.add_view(
         add_fruit_category,
         name=FruitCategory.type_info.add_view,
         permission='add',
-        renderer='kotti:templates/edit/node.pt',
+        renderer='kotti:templates/edit/add.pt',
     )
 
     config.add_view(
@@ -135,14 +135,14 @@ def includeme_edit(config):
         context=Fruit,
         name='edit',
         permission='edit',
-        renderer='kotti:templates/edit/node.pt',
+        renderer='kotti:templates/edit/master.pt',
     )
 
     config.add_view(
         add_fruit,
         name=Fruit.type_info.add_view,
         permission='add',
-        renderer='kotti:templates/edit/node.pt',
+        renderer='kotti:templates/edit/add.pt',
     )
     
 def fruit_categories_view(request):
@@ -187,18 +187,6 @@ def _find_user(login):
             if results:
                 principal = results[0]
     return principal
-
-def mother(context, request):
-
-    body_dict = json.loads(request.body)
-
-    bucket = body_dict['bucket']
-    print 'bucket = ', bucket
-
-    if bucket == 'configuration':
-        return Configuration.configurations_bunch(Configuration.name.desc())
-    else:
-        return {}
 
 def auth(context, request):
     root = get_root(request)
@@ -288,5 +276,4 @@ def includeme(config):
 
     #config.add_route('kottiauth', '/kotti/auth')
     config.add_view(auth, name='auth', context=Node, renderer='json', xhr=True)
-    config.add_view(mother, name='mother', context=Node, renderer='json', xhr=True)
 
