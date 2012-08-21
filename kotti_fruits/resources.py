@@ -12,6 +12,7 @@ from kotti import get_settings
 from kotti import DBSession
 from kotti.security import get_principals
 from kotti.security import SITE_ACL
+from kotti.resources import Node
 from kotti.resources import Content
 from kotti.resources import Document
 from kotti.populate import populate as kotti_populate
@@ -218,29 +219,16 @@ def get_root(request=None):
 
 def populate():
     session = DBSession()
-    #nodecount = session.query(Content).count()
-    go = 1
-    if go == 1:
+    if session.query(Node).count() == 0:
         kotti_populate()
-        #root = Document(parent=None, title=u"My Site")
-        #root.__acl__ = SITE_ACL
-        #session.add(root)
 
         root_document = session.query(Content).filter(Content.parent_id==None).first()
-        print
-        print
-        print root_document
-        print root_document['about']
-        print
-        print
-
-        #session.delete(root_document)
 
         from fixtures import fruit_categories, fruit_data, fruit_data_names
 
         fruit_categories_folder = \
                 FruitCategoriesFolder(name=u"fruit_categories_folder",
-                                      title=u"Fruit Categories",
+                                      title=u"Fruit Categories Folder",
                                       in_navigation=False,
                                       parent=root_document)
 
@@ -268,7 +256,6 @@ def populate():
             fruit_category_obj = \
                     DBSession.query(FruitCategory).filter_by(title=fruit_category).first()
             for fruit_name in fruit_categories[fruit_category]['fruits']:
-                        #Fruit(**dict({'fruit_category_id': fruit_category_obj.id,
                 fruit_instances[fruit_name] = \
                         Fruit(**dict({'name': fruit_name,
                                       'title': fruit_name,
@@ -296,36 +283,6 @@ def populate():
             fruit_instances[key].__acl__ = SITE_ACL
             session.add(fruit_instances[key])
 
-        print
-        print
-        print 'len fruit category folders', len(DBSession.query(FruitCategoriesFolder).all())
-        print 'len fruit categories', len(DBSession.query(FruitCategory).all())
-        print 'len fruits', len(DBSession.query(Fruit).all())
-        melons_category = DBSession.query(FruitCategory).filter_by(title=u"Melons").first()
-        print 'melons_category parent', melons_category.__parent__
-        grapefruit = DBSession.query(Fruit).filter_by(title='Grapefruit').first()
-        print 'grapefruit id', grapefruit.id
-        print 'grapefruit parent', grapefruit.__parent__
-        print
-        print
-
-#    principals = get_principals()
-#    if u'admin' not in principals:
-#        principals[u'admin'] = {
-#            u'name': u'admin',
-#            u'password': get_settings()['kotti.secret'],
-#            u'title': u"Administrator",
-#            u'groups': [u'role:admin'],
-#            }
-#    if u'test' not in principals:
-#        principals[u'test'] = {
-#            u'name': u'test',
-#           u'password': u'test',
-#            u'title': u"Tester",
-#            u'groups': [u'role:admin'],
-#            }
 
     session.flush()
     transaction.commit()
-
-    #import pdb; pdb.set_trace()
