@@ -118,24 +118,24 @@ class FruitCategory(Content):
 class Fruit(Content):
     id = Column(Integer(), ForeignKey('contents.id'), primary_key=True)
 
-    calories              = Column('calories',              Integer(), info='Calories')
-    calories_from_fat     = Column('calories_from_fat',     Integer(), info='Calories from Fat')
-    total_fat_g           = Column('total_fat_g',           Integer(), info='Total Fat (g)')
-    total_fat_dv          = Column('total_fat_dv',          Integer(), info='Total Fat (%DV)')
-    sodium_mg             = Column('sodium_mg',             Integer(), info='Sodium (mg)')
-    sodium_dv             = Column('sodium_dv',             Integer(), info='Sodium (%DV)')
-    potassium_g           = Column('potassium_g',           Integer(), info='Potassium (mg)')
-    potassium_dv          = Column('potassium_dv',          Integer(), info='Potassium (%DV)')
-    total_carbohydrate_g  = Column('total_carbohydrate_g',  Integer(), info='Total Carbohydrate (g)')
-    total_carbohydrate_dv = Column('total_carbohydrate_dv', Integer(), info='Total Carbohydrate (%DV)')
-    dietary_fiber_g       = Column('dietary_fiber_g',       Integer(), info='Dietary Fiber (g)')
-    dietary_fiber_dv      = Column('dietary_fiber_dv',      Integer(), info='Dietary Fiber (%DV)')
-    sugars_g              = Column('sugars_g',              Integer(), info='Sugars (g)')
-    protein_g             = Column('protein_g',             Integer(), info='Protein (g)')
-    vitamin_a_dv          = Column('vitamin_a_dv',          Integer(), info='Vitamin A (%DV)')
-    vitamin_c_dv          = Column('vitamin_c_dv',          Integer(), info='Vitamin C (%DV)')
-    calcium_dv            = Column('calcium_dv',            Integer(), info='Calcium (%DV)')
-    iron_dv               = Column('iron_dv',               Integer(), info='Iron (%DV)')
+    calories              = Column(Integer(), info='Calories')
+    calories_from_fat     = Column(Integer(), info='Calories from Fat')
+    total_fat_g           = Column(Integer(), info='Total Fat (g)')
+    total_fat_dv          = Column(Integer(), info='Total Fat (%DV)')
+    sodium_mg             = Column(Integer(), info='Sodium (mg)')
+    sodium_dv             = Column(Integer(), info='Sodium (%DV)')
+    potassium_g           = Column(Integer(), info='Potassium (mg)')
+    potassium_dv          = Column(Integer(), info='Potassium (%DV)')
+    total_carbohydrate_g  = Column(Integer(), info='Total Carbohydrate (g)')
+    total_carbohydrate_dv = Column(Integer(), info='Total Carbohydrate (%DV)')
+    dietary_fiber_g       = Column(Integer(), info='Dietary Fiber (g)')
+    dietary_fiber_dv      = Column(Integer(), info='Dietary Fiber (%DV)')
+    sugars_g              = Column(Integer(), info='Sugars (g)')
+    protein_g             = Column(Integer(), info='Protein (g)')
+    vitamin_a_dv          = Column(Integer(), info='Vitamin A (%DV)')
+    vitamin_c_dv          = Column(Integer(), info='Vitamin C (%DV)')
+    calcium_dv            = Column(Integer(), info='Calcium (%DV)')
+    iron_dv               = Column(Integer(), info='Iron (%DV)')
 
     fruit_category_id = Column(Integer(), ForeignKey('nodes.id'))
     fruit_category = \
@@ -151,28 +151,27 @@ class Fruit(Content):
         )
 
     def __init__(self, **kwargs):
-        super(Fruit, self).__init__()
-        self.name                  = kwargs['title']
-        self.title                 = kwargs['title']
-        self.fruit_category_id     = kwargs['fruit_category_id']
-        self.calories              = kwargs['calories']
-        self.calories_from_fat     = kwargs['calories_from_fat']
-        self.total_fat_g           = kwargs['total_fat_g']
-        self.total_fat_dv          = kwargs['total_fat_dv']
-        self.sodium_mg             = kwargs['sodium_mg']
-        self.sodium_dv             = kwargs['sodium_dv']
-        self.potassium_g           = kwargs['potassium_g']
-        self.potassium_dv          = kwargs['potassium_dv']
-        self.total_carbohydrate_g  = kwargs['total_carbohydrate_g']
-        self.total_carbohydrate_dv = kwargs['total_carbohydrate_dv']
-        self.dietary_fiber_g       = kwargs['dietary_fiber_g']
-        self.dietary_fiber_dv      = kwargs['dietary_fiber_dv']
-        self.sugars_g              = kwargs['sugars_g']
-        self.protein_g             = kwargs['protein_g']
-        self.vitamin_a_dv          = kwargs['vitamin_a_dv']
-        self.vitamin_c_dv          = kwargs['vitamin_c_dv']
-        self.calcium_dv            = kwargs['calcium_dv']
-        self.iron_dv               = kwargs['iron_dv']
+        super(Fruit, self).__init__(**kwargs)
+        #self.name                  = kwargs['name']
+        #self.title                 = kwargs['title']
+        #self.calories              = kwargs['calories']
+        #self.calories_from_fat     = kwargs['calories_from_fat']
+        #self.total_fat_g           = kwargs['total_fat_g']
+        #self.total_fat_dv          = kwargs['total_fat_dv']
+        #self.sodium_mg             = kwargs['sodium_mg']
+        #self.sodium_dv             = kwargs['sodium_dv']
+        #self.potassium_g           = kwargs['potassium_g']
+        #self.potassium_dv          = kwargs['potassium_dv']
+        #self.total_carbohydrate_g  = kwargs['total_carbohydrate_g']
+        #self.total_carbohydrate_dv = kwargs['total_carbohydrate_dv']
+        #self.dietary_fiber_g       = kwargs['dietary_fiber_g']
+        #self.dietary_fiber_dv      = kwargs['dietary_fiber_dv']
+        #self.sugars_g              = kwargs['sugars_g']
+        #self.protein_g             = kwargs['protein_g']
+        #self.vitamin_a_dv          = kwargs['vitamin_a_dv']
+        #self.vitamin_c_dv          = kwargs['vitamin_c_dv']
+        #self.calcium_dv            = kwargs['calcium_dv']
+        #self.iron_dv               = kwargs['iron_dv']
 
 #    def make_record(r):
 #        fruit_category = DBSession.query(FruitCategory).filter_by(name=r.name).first()
@@ -230,6 +229,12 @@ def populate():
         #session.add(root)
 
         root_document = session.query(Content).filter(Content.parent_id==None).first()
+        print
+        print
+        print root_document
+        print root_document['about']
+        print
+        print
 
         #session.delete(root_document)
 
@@ -244,12 +249,14 @@ def populate():
         fruit_categories_folder.__acl__ = SITE_ACL
         session.add(fruit_categories_folder)
 
+        folder = session.query(Content).filter_by(name=u"fruit_categories_folder").first()
+
         fruit_category_instances = {}
         for fruit_category in fruit_categories:
             fruit_category_instances[fruit_category] = \
                 FruitCategory(name=fruit_categories[fruit_category]['name'],
                               title=fruit_categories[fruit_category]['name'],
-                              parent=fruit_categories_folder)
+                              parent=folder)
 
         for key in fruit_category_instances:
             fruit_category_instances[key].__acl__ = SITE_ACL
@@ -261,16 +268,31 @@ def populate():
         fruit_instances = {}
         for fruit_category in fruit_categories:
             fruit_category_obj = \
-                    DBSession.query(FruitCategory).filter_by(name=fruit_category).first()
+                    DBSession.query(FruitCategory).filter_by(title=fruit_category).first()
             for fruit_name in fruit_categories[fruit_category]['fruits']:
+                        #Fruit(**dict({'fruit_category_id': fruit_category_obj.id,
                 fruit_instances[fruit_name] = \
-                        Fruit(**dict({'fruit_category_id': fruit_category_obj.id,
-                                      'title': fruit_name},
-                                      **dict(fruit_data[fruit_name])))
+                        Fruit(**dict({'name': fruit_name,
+                                      'title': fruit_name,
+                                      'parent': fruit_category_obj}))
+                                      #**dict(fruit_data[fruit_name])))
 
         for key in fruit_instances:
             fruit_instances[key].__acl__ = SITE_ACL
             session.add(fruit_instances[key])
+
+        print
+        print
+        print 'len fruit category folders', len(DBSession.query(FruitCategoriesFolder).all())
+        print 'len fruit categories', len(DBSession.query(FruitCategory).all())
+        print 'len fruits', len(DBSession.query(Fruit).all())
+        melons_category = DBSession.query(FruitCategory).filter_by(title=u"Melons").first()
+        print 'melons_category parent', melons_category.__parent__
+        grapefruit = DBSession.query(Fruit).filter_by(title='Grapefruit').first()
+        print 'grapefruit id', grapefruit.id
+        print 'grapefruit parent', grapefruit.__parent__
+        print
+        print
 
 #    principals = get_principals()
 #    if u'admin' not in principals:
