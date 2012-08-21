@@ -150,7 +150,7 @@ class Fruit(Content):
         addable_to=[u'FruitCategory'],
         )
 
-    def __init__(self, **kwargs):
+    def __init__(self, calories=0, calories_from_fat=0, total_fat_g=0, total_fat_dv=0, sodium_mg=0, sodium_dv=0, potassium_g=0, potassium_dv=0, total_carbohydrate_g=0, total_carbohydrate_dv=0, dietary_fiber_g=0, dietary_fiber_dv=0, sugars_g=0, protein_g=0, vitamin_a_dv=0, vitamin_c_dv=0, calcium_dv=0, iron_dv=0, **kwargs):
         super(Fruit, self).__init__(**kwargs)
         #self.name                  = kwargs['name']
         #self.title                 = kwargs['title']
@@ -274,8 +274,25 @@ def populate():
                 fruit_instances[fruit_name] = \
                         Fruit(**dict({'name': fruit_name,
                                       'title': fruit_name,
-                                      'parent': fruit_category_obj}))
-                                      #**dict(fruit_data[fruit_name])))
+                                      'parent': fruit_category_obj,
+                                      'calories': fruit_data[fruit_name]['calories'],
+                                      'calories_from_fat': fruit_data[fruit_name]['calories_from_fat'],
+                                      'total_fat_g': fruit_data[fruit_name]['total_fat_g'],
+                                      'total_fat_dv': fruit_data[fruit_name]['total_fat_dv'],
+                                      'sodium_mg': fruit_data[fruit_name]['sodium_mg'],
+                                      'sodium_dv': fruit_data[fruit_name]['sodium_dv'],
+                                      'potassium_g': fruit_data[fruit_name]['potassium_g'],
+                                      'potassium_dv': fruit_data[fruit_name]['potassium_dv'],
+                                      'total_carbohydrate_g': fruit_data[fruit_name]['total_carbohydrate_g'],
+                                      'total_carbohydrate_dv': fruit_data[fruit_name]['total_carbohydrate_dv'],
+                                      'dietary_fiber_g': fruit_data[fruit_name]['dietary_fiber_g'],
+                                      'dietary_fiber_dv': fruit_data[fruit_name]['dietary_fiber_dv'],
+                                      'sugars_g': fruit_data[fruit_name]['sugars_g'],
+                                      'protein_g': fruit_data[fruit_name]['protein_g'],
+                                      'vitamin_a_dv': fruit_data[fruit_name]['vitamin_a_dv'],
+                                      'vitamin_c_dv': fruit_data[fruit_name]['vitamin_c_dv'],
+                                      'calcium_dv': fruit_data[fruit_name]['calcium_dv'],
+                                      'iron_dv': fruit_data[fruit_name]['iron_dv']}))
 
         for key in fruit_instances:
             fruit_instances[key].__acl__ = SITE_ACL
