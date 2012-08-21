@@ -152,26 +152,24 @@ class Fruit(Content):
 
     def __init__(self, calories=0, calories_from_fat=0, total_fat_g=0, total_fat_dv=0, sodium_mg=0, sodium_dv=0, potassium_g=0, potassium_dv=0, total_carbohydrate_g=0, total_carbohydrate_dv=0, dietary_fiber_g=0, dietary_fiber_dv=0, sugars_g=0, protein_g=0, vitamin_a_dv=0, vitamin_c_dv=0, calcium_dv=0, iron_dv=0, **kwargs):
         super(Fruit, self).__init__(**kwargs)
-        #self.name                  = kwargs['name']
-        #self.title                 = kwargs['title']
-        #self.calories              = kwargs['calories']
-        #self.calories_from_fat     = kwargs['calories_from_fat']
-        #self.total_fat_g           = kwargs['total_fat_g']
-        #self.total_fat_dv          = kwargs['total_fat_dv']
-        #self.sodium_mg             = kwargs['sodium_mg']
-        #self.sodium_dv             = kwargs['sodium_dv']
-        #self.potassium_g           = kwargs['potassium_g']
-        #self.potassium_dv          = kwargs['potassium_dv']
-        #self.total_carbohydrate_g  = kwargs['total_carbohydrate_g']
-        #self.total_carbohydrate_dv = kwargs['total_carbohydrate_dv']
-        #self.dietary_fiber_g       = kwargs['dietary_fiber_g']
-        #self.dietary_fiber_dv      = kwargs['dietary_fiber_dv']
-        #self.sugars_g              = kwargs['sugars_g']
-        #self.protein_g             = kwargs['protein_g']
-        #self.vitamin_a_dv          = kwargs['vitamin_a_dv']
-        #self.vitamin_c_dv          = kwargs['vitamin_c_dv']
-        #self.calcium_dv            = kwargs['calcium_dv']
-        #self.iron_dv               = kwargs['iron_dv']
+        self.calories              = calories
+        self.calories_from_fat     = calories_from_fat
+        self.total_fat_g           = total_fat_g
+        self.total_fat_dv          = total_fat_dv
+        self.sodium_mg             = sodium_mg
+        self.sodium_dv             = sodium_dv
+        self.potassium_g           = potassium_g
+        self.potassium_dv          = potassium_dv
+        self.total_carbohydrate_g  = total_carbohydrate_g
+        self.total_carbohydrate_dv = total_carbohydrate_dv
+        self.dietary_fiber_g       = dietary_fiber_g
+        self.dietary_fiber_dv      = dietary_fiber_dv
+        self.sugars_g              = sugars_g
+        self.protein_g             = protein_g
+        self.vitamin_a_dv          = vitamin_a_dv
+        self.vitamin_c_dv          = vitamin_c_dv
+        self.calcium_dv            = calcium_dv
+        self.iron_dv               = iron_dv
 
 #    def make_record(r):
 #        fruit_category = DBSession.query(FruitCategory).filter_by(name=r.name).first()
