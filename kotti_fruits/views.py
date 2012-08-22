@@ -38,7 +38,7 @@ class FruitCategoriesFolderView(object):
     @view_config(context=FruitCategoriesFolder,
                  name='view',
                  permission='view',
-                 renderer='templates/view/fruit-categories-folder-view.pt')
+                 renderer='templates/fruit-categories-folder-view.pt')
     def view(self):
 
         session = DBSession()
@@ -60,7 +60,7 @@ class FruitCategoryView(object):
     @view_config(context=FruitCategory,
                  name='view',
                  permission='view',
-                 renderer='templates/view/fruit-category-view.pt')
+                 renderer='templates/fruit-category-view.pt')
     def view(self):
 
         session = DBSession()
@@ -82,7 +82,7 @@ class FruitView(object):
     @view_config(context=Fruit,
                  name='view',
                  permission='view',
-                 renderer='templates/view/fruit-view.pt')
+                 renderer='templates/fruit-view.pt')
     def view(self):
 
         session = DBSession()
