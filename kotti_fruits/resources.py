@@ -244,7 +244,7 @@ class Fruit(Content):
 
 def get_root(request=None):
     session = DBSession()
-    return session.query(Content).filter(Content.parent_id is None).first()
+    return session.query(Content).filter(Content.parent_id==None).first()
 
 
 def fruit_data_args_dict(fruit_name, fruit_category_obj):
@@ -278,7 +278,7 @@ def populate():
         kotti_populate()
 
         root_document = \
-                session.query(Content).filter(Content.parent_id is None).first()
+                session.query(Content).filter(Content.parent_id==None).first()
 
         fruit_categories_folder = \
                 FruitCategoriesFolder(name=u"fruit_categories_folder",
