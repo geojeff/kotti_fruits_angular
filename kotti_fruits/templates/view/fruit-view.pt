@@ -7,6 +7,7 @@
     <p class="description">
       ${context.description}
     </p>
+    <p><img src="${request.resource_url(context.children[3])}image" /></p>
     <p>Calories: ${context.calories}</p>
     <p>Calories from fat: ${context.calories_from_fat}</p>
     <p>Total Fat (g, %DV): (${context.total_fat_g}, ${context.total_fat_dv})</p>

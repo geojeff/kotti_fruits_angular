@@ -1,6 +1,7 @@
 import transaction
 import ast
 import uuid
+import os
 
 from sqlalchemy.orm import backref
 from sqlalchemy.orm import relationship
@@ -15,8 +16,11 @@ from kotti.security import SITE_ACL
 from kotti.resources import Node
 from kotti.resources import Content
 from kotti.resources import Document
+from kotti.resources import File
+from kotti.resources import Image
 from kotti.populate import populate as kotti_populate
 
+from kotti_fruits.static import images
 
 class FruitCategoriesFolder(Content):
     id = Column(Integer(), ForeignKey('contents.id'), primary_key=True)
@@ -283,6 +287,15 @@ def populate():
             fruit_instances[key].__acl__ = SITE_ACL
             session.add(fruit_instances[key])
 
+            # images have filenames with format: apple.256.jpg
+            for size in [32, 64, 128, 256, 512]:
+                image_filename = "{0}.{1}.jpg".format(key, size) 
+                image_path = os.path.join(os.path.dirname(images.__file__),
+                                          image_filename)
+                image = open(image_path, 'rb').read()
+                fruit_instances[key][image_filename] = Image(image, image_filename, u"image/jpeg", title=image_filename)
+                fruit_instances[key][image_filename].__acl__ = SITE_ACL
+                session.add(fruit_instances[key][image_filename])
 
     session.flush()
     transaction.commit()
