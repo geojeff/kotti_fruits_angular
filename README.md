@@ -4,19 +4,19 @@ kotti_fruits_example
 An example Kotti project using a dataset about fruits, containing images from
 Wikipedia.
 
-TODO:
+When run in a virtualenv with pserve development.ini, the populate() method in
+resources.py will first call the Kotti default populate(), which adds a root
+Document instance and an About Document. Then the kotti_fruits populate() code
+adds a FruitCategoriesFolder, and within that FruitCategory instances, and
+within each of those, Fruit instances. Each Fruit instance has a set of images
+loaded also.
 
-- Is the setup for populate in __init__.py what you would do in the current
-  Kotti? (this project was copied from an early version)
+When you visit the new Kotti site, log in as admin/querty, then click Navigate
+to see the content added to the site. Click the main FruitCategoriesFolder,
+then a fruit category, such as 'Melons' then click individual fruits to see
+an image and some data for that fruit.
 
-- The call to kotti.populate() is done at the top of the project populate().
-  Same question -- correct procedure?
-
-- FruitCategoriesFolder is added to the root document. Should it be added to
-  root instead?
-
-- Views are likely in need of updating or writing correctly, because the views
-  in the project are bare skeletons.
-
-- How to load the images? Need an Image type? Coordinate with/program for
-  tinymce?
+Basic REST services are up. Visit /fruit_categories to see JSON data for all
+the categories, and /fruits for all fruits. Visit /fruit_category/5 through
+7 for the four fruit categories JSON data, and for the individual fruits it is
+/fruit/8 through 27.
