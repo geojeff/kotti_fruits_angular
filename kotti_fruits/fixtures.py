@@ -15,7 +15,7 @@
 #     fruit_data
 #
 
-import pprint
+#import pprint
 
 fruit_categories = \
         {'Melons': {'name': 'Melons',
@@ -117,9 +117,27 @@ fruit_data_list_of_dicts = [
  'data': [80, 0, 0, 0, 0, 0, 270, 8, 21, 7, 1, 4, 20, 1, 30, 25, 2, 4],
  'is_selected': False}]
 
-fruit_data_names_and_attributes = [('calories', 'Calories'), ('calories_from_fat', 'Calories from Fat'), ('total_fat_g', 'Total Fat (g)'), ('total_fat_dv', 'Total Fat (%DV)'), ('sodium_mg', 'Sodium (mg)'), ('sodium_dv', 'Sodium (%DV)'), ('potassium_mg', 'Potassium (mg)'), ('potassium_dv', 'Potassium (%DV)'), ('total_carbohydrate_g', 'Total Carbohydrate (g)'), ('total_carbohydrate_dv', 'Total Carbohydrate (%DV)'), ('dietary_fiber_g', 'Dietary Fiber (g)'), ('dietary_fiber_dv', 'Dietary Fiber (%DV)'), ('sugars_g', 'Sugars (g)'), ('protein_g', 'Protein (g)'), ('vitamin_a_dv', 'Vitamin A (%DV)'), ('vitamin_c_dv', 'Vitamin C (%DV)'), ('calcium_dv', 'Calcium (%DV)'), ('iron_dv', 'Iron (%DV)')]
+fruit_data_names_and_attributes = \
+        [('calories', 'Calories'),
+         ('calories_from_fat', 'Calories from Fat'),
+         ('total_fat_g', 'Total Fat (g)'),
+         ('total_fat_dv', 'Total Fat (%DV)'),
+         ('sodium_mg', 'Sodium (mg)'),
+         ('sodium_dv', 'Sodium (%DV)'),
+         ('potassium_mg', 'Potassium (mg)'),
+         ('potassium_dv', 'Potassium (%DV)'),
+         ('total_carbohydrate_g', 'Total Carbohydrate (g)'),
+         ('total_carbohydrate_dv', 'Total Carbohydrate (%DV)'),
+         ('dietary_fiber_g', 'Dietary Fiber (g)'),
+         ('dietary_fiber_dv', 'Dietary Fiber (%DV)'),
+         ('sugars_g', 'Sugars (g)'),
+         ('protein_g', 'Protein (g)'),
+         ('vitamin_a_dv', 'Vitamin A (%DV)'),
+         ('vitamin_c_dv', 'Vitamin C (%DV)'),
+         ('calcium_dv', 'Calcium (%DV)'),
+         ('iron_dv', 'Iron (%DV)')]
 
-fruit_data_names,fruit_data_attributes = zip(*fruit_data_names_and_attributes)
+fruit_data_names, fruit_data_attributes = zip(*fruit_data_names_and_attributes)
 
 # fruit_data generated with the following:
 #

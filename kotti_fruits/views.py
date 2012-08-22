@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import json
-
 from pyramid.view import view_config
 
 from kotti import DBSession
-from kotti.resources import Image
 from kotti.views.edit import ContentSchema
 from kotti.views.edit import make_generic_add
 from kotti.views.edit import make_generic_edit
@@ -25,7 +22,6 @@ class FruitCategorySchema(ContentSchema):
 
 class FruitSchema(ContentSchema):
     pass
-
 
 
 class FruitCategoriesFolderView(object):
@@ -103,7 +99,8 @@ def includeme_add_and_edit_view(config):
                     permission='edit',
                     renderer='kotti:templates/edit/node.pt', )
 
-    config.add_view(make_generic_add(FruitCategoriesFolderSchema(), FruitCategoriesFolder),
+    config.add_view(make_generic_add(FruitCategoriesFolderSchema(),
+                                     FruitCategoriesFolder),
                     name=FruitCategoriesFolder.type_info.add_view,
                     permission='add',
                     renderer='kotti:templates/edit/node.pt', )
@@ -114,7 +111,8 @@ def includeme_add_and_edit_view(config):
                     permission='edit',
                     renderer='kotti:templates/edit/node.pt', )
 
-    config.add_view(make_generic_add(FruitCategorySchema(), FruitCategory),
+    config.add_view(make_generic_add(FruitCategorySchema(),
+                                     FruitCategory),
                     name=FruitCategory.type_info.add_view,
                     permission='add',
                     renderer='kotti:templates/edit/node.pt', )
@@ -130,8 +128,10 @@ def includeme_add_and_edit_view(config):
                     permission='add',
                     renderer='kotti:templates/edit/node.pt', )
 
+
 def fruit_categories_view(request):
     return FruitCategory.fruit_categories_bunch(FruitCategory.name.desc())
+
 
 def fruit_category_view(request):
     if request.method == 'POST':
@@ -140,14 +140,18 @@ def fruit_category_view(request):
         return FruitCategory.fruit_category(FruitCategory.name.desc(),
                                             request.matchdict['id'])
 
+
 def fruits_view(request):
     return Fruit.fruits_bunch(Fruit.name.desc())
+
 
 def fruit_view(request):
     if request.method == 'POST':
         return Fruit.create_fruit(request)
     else:
-        return Fruit.fruit(Fruit.name.desc(), request.matchdict['id'])
+        return Fruit.fruit(Fruit.name.desc(),
+                           request.matchdict['id'])
+
 
 def includeme_bunch_view(config):
     # The url for these is: /@@fruit_categories, or /@@fruits
@@ -159,7 +163,8 @@ def includeme_bunch_view(config):
                     name='fruits',
                     permission='view',
                     renderer='json')
-    
+
+
 def includeme_single_view(config):
     # The url for these is: /fruit_category/5, or /fruit/15
     config.add_route('fruit_category', 'fruit_category/{id}')
@@ -168,9 +173,13 @@ def includeme_single_view(config):
                     permission='view',
                     renderer='json')
     config.add_route('fruit', 'fruit/{id}')
-    config.add_view(fruit_view, route_name='fruit', permission='view', renderer='json')
-    
+    config.add_view(fruit_view,
+                    route_name='fruit',
+                    permission='view',
+                    renderer='json')
+
+
 def includeme(config):
-    includeme_add_and_edit_view(config) 
-    includeme_bunch_view(config) 
-    includeme_single_view(config) 
+    includeme_add_and_edit_view(config)
+    includeme_bunch_view(config)
+    includeme_single_view(config)

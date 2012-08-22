@@ -9,20 +9,17 @@ from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 
-from kotti import get_settings
 from kotti import DBSession
-from kotti.security import get_principals
 from kotti.security import SITE_ACL
 from kotti.resources import Node
 from kotti.resources import Content
-from kotti.resources import Document
-from kotti.resources import File
 from kotti.resources import Image
 from kotti.populate import populate as kotti_populate
 
 from kotti_fruits.static import images
 
-from fixtures import fruit_categories, fruit_data, fruit_data_names
+from fixtures import fruit_categories, fruit_data
+
 
 class FruitCategoriesFolder(Content):
     id = Column(Integer(), ForeignKey('contents.id'), primary_key=True)
@@ -42,10 +39,10 @@ class FruitCategory(Content):
     id = Column(Integer(), ForeignKey('contents.id'), primary_key=True)
 
     fruit_categories_folder_id = Column(Integer(), ForeignKey('nodes.id'))
-    fruit_categories_folder = \
-        relationship("Node",
-                     backref=backref('fruit_categories'),
-                     primaryjoin='Node.id==FruitCategory.fruit_categories_folder_id')
+    fruit_categories_folder = relationship(
+            "Node",
+            backref=backref('fruit_categories'),
+            primaryjoin='Node.id==FruitCategory.fruit_categories_folder_id')
 
     type_info = Content.type_info.copy(
         name=u'FruitCategory',
@@ -61,10 +58,10 @@ class FruitCategory(Content):
         fruit_ids = \
                 [fruit.id for fruit in fruits if fruit.__parent__.id == r.id]
         fruit_categories_folder = r.__parent__
-        return { u'id': r.id, 
-                 u'title': r.title, 
-                 u'fruit_ids': fruit_ids, 
-                 u'fruit_categories_folder': fruit_categories_folder.id }
+        return {u'id': r.id,
+                u'title': r.title,
+                u'fruit_ids': fruit_ids,
+                u'fruit_categories_folder': fruit_categories_folder.id}
 
     @classmethod
     def fruit_category(self, cls, id_wanted):
@@ -77,7 +74,7 @@ class FruitCategory(Content):
 
     @classmethod
     def update_fruit_category(self, request, cls, id_wanted):
-        data = ast.literal_eval(request.body) 
+        data = ast.literal_eval(request.body)
         print data
         r = DBSession.query(FruitCategory).filter_by(id=id_wanted).first()
         if r is not None:
@@ -100,22 +97,24 @@ class FruitCategory(Content):
         return ret
 
     @classmethod
-    def create_fruit_category(self, request): 
-        data = ast.literal_eval(request.body) 
-        # Later can have multiple fruit_categories folders, maybe, but now assume 1
-        fruit_categories_folder = DBSession.query(FruitCategoriesFolder).first()
+    def create_fruit_category(self, request):
+        data = ast.literal_eval(request.body)
+        # Assume only one fruit_categories folder.
+        fruit_categories_folder = \
+                DBSession.query(FruitCategoriesFolder).first()
         name = str(uuid.uuid4())
         fruit_category = FruitCategory(name=name,
-                                       title=data['title'], 
+                                       title=data['title'],
                                        parent=fruit_categories_folder)
         fruit_category.__acl__ = SITE_ACL
         session = DBSession()
         session.add(fruit_category)
         session.flush()
         transaction.commit()
-        fruit_category = DBSession.query(FruitCategory).filter_by(name=name).first()
-        ret = { u'id': fruit_category.id, 
-                u'title': fruit_category.title }
+        fruit_category = \
+                DBSession.query(FruitCategory).filter_by(name=name).first()
+        ret = {u'id': fruit_category.id,
+               u'title': fruit_category.title}
         return ret
 
 
@@ -184,28 +183,28 @@ class Fruit(Content):
         self.iron_dv               = iron_dv
 
     def make_record(r):
-        return { u'fruit_category_id': r.__parent__.id,
-                 u'id': r.id,
-                 u'name': r.name,
-                 u'title': r.title,
-                 u'calories': r.calories,
-                 u'calories_from_fat': r.calories_from_fat,
-                 u'total_fat_g': r.total_fat_g,
-                 u'total_fat_dv': r.total_fat_dv,
-                 u'sodium_mg': r.sodium_mg,
-                 u'sodium_dv': r.sodium_dv,
-                 u'potassium_mg': r.potassium_mg,
-                 u'potassium_dv': r.potassium_dv,
-                 u'total_carbohydrate_g': r.total_carbohydrate_g,
-                 u'total_carbohydrate_dv': r.total_carbohydrate_dv,
-                 u'dietary_fiber_g': r.dietary_fiber_g,
-                 u'dietary_fiber_dv': r.dietary_fiber_dv,
-                 u'sugars_g': r.sugars_g,
-                 u'protein_g': r.protein_g,
-                 u'vitamin_a_dv': r.vitamin_a_dv,
-                 u'vitamin_c_dv': r.vitamin_c_dv,
-                 u'calcium_dv': r.calcium_dv,
-                 u'iron_dv': r.iron_dv}
+        return {u'fruit_category_id': r.__parent__.id,
+                u'id': r.id,
+                u'name': r.name,
+                u'title': r.title,
+                u'calories': r.calories,
+                u'calories_from_fat': r.calories_from_fat,
+                u'total_fat_g': r.total_fat_g,
+                u'total_fat_dv': r.total_fat_dv,
+                u'sodium_mg': r.sodium_mg,
+                u'sodium_dv': r.sodium_dv,
+                u'potassium_mg': r.potassium_mg,
+                u'potassium_dv': r.potassium_dv,
+                u'total_carbohydrate_g': r.total_carbohydrate_g,
+                u'total_carbohydrate_dv': r.total_carbohydrate_dv,
+                u'dietary_fiber_g': r.dietary_fiber_g,
+                u'dietary_fiber_dv': r.dietary_fiber_dv,
+                u'sugars_g': r.sugars_g,
+                u'protein_g': r.protein_g,
+                u'vitamin_a_dv': r.vitamin_a_dv,
+                u'vitamin_c_dv': r.vitamin_c_dv,
+                u'calcium_dv': r.calcium_dv,
+                u'iron_dv': r.iron_dv}
 
     @classmethod
     def fruit(self, cls, id_wanted):
@@ -223,8 +222,8 @@ class Fruit(Content):
         return ret
 
     @classmethod
-    def create_fruit(self, request): 
-        data = ast.literal_eval(request.body) 
+    def create_fruit(self, request):
+        data = ast.literal_eval(request.body)
         fruit_category = \
                 DBSession.query(FruitCategory).filter_by(
                         id=data['fruit_category']).first()
@@ -237,14 +236,16 @@ class Fruit(Content):
         session.flush()
         transaction.commit()
         fruit = DBSession.query(Fruit).filter_by(name=name).first()
-        ret = { u'id': fruit.id, 
-                u'title': fruit.title,
-                u'fruit_category': fruit.__parent__.id }
+        ret = {u'id': fruit.id,
+               u'title': fruit.title,
+               u'fruit_category': fruit.__parent__.id}
         return ret
+
 
 def get_root(request=None):
     session = DBSession()
-    return session.query(Content).filter(Content.parent_id==None).first()
+    return session.query(Content).filter(Content.parent_id is None).first()
+
 
 def fruit_data_args_dict(fruit_name, fruit_category_obj):
     f = fruit_data[fruit_name]
@@ -270,13 +271,14 @@ def fruit_data_args_dict(fruit_name, fruit_category_obj):
             'calcium_dv': f['calcium_dv'],
             'iron_dv': f['iron_dv']}
 
+
 def populate():
     session = DBSession()
     if session.query(Node).count() == 0:
         kotti_populate()
 
         root_document = \
-                session.query(Content).filter(Content.parent_id==None).first()
+                session.query(Content).filter(Content.parent_id is None).first()
 
         fruit_categories_folder = \
                 FruitCategoriesFolder(name=u"fruit_categories_folder",
@@ -302,16 +304,12 @@ def populate():
             fruit_category_instances[key].__acl__ = SITE_ACL
             session.add(fruit_category_instances[key])
 
-        # Find the fruit_categories
-        fruit_category_results = DBSession.query(FruitCategory).all()
-
         fruit_instances = {}
         for fruit_category in fruit_categories:
             fruit_category_obj = \
                     DBSession.query(FruitCategory).filter_by(
                             title=fruit_category).first()
             for fruit_name in fruit_categories[fruit_category]['fruits']:
-                f = fruit_data[fruit_name]
                 fruit_instances[fruit_name] = \
                     Fruit(**fruit_data_args_dict(fruit_name,
                                                  fruit_category_obj))
@@ -322,7 +320,7 @@ def populate():
 
             # images have filenames with format: apple.256.jpg
             for size in [32, 64, 128, 256, 512]:
-                image_filename = "{0}.{1}.jpg".format(key, size) 
+                image_filename = "{0}.{1}.jpg".format(key, size)
                 image_path = os.path.join(os.path.dirname(images.__file__),
                                           image_filename)
                 image = open(image_path, 'rb').read()
