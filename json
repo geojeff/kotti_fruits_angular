@@ -2,7 +2,7 @@
    "info": {
        "docs_url": "http://www.geojeff.org/software/kotti_fruits_example/documentation",
        "requires_python": null,
-       "maintainer_email": geojeff@me.com,
+       "maintainer_email": "geojeff@me.com",
        "keywords": "kotti web cms wcms pylons pyramid sqlalchemy bootstrap example",
        "package_url": "http://github.com/geojeff/kotti_fruits_example",
        "author": "Jeff Pittman",
