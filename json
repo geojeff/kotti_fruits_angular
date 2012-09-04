@@ -1,0 +1,29 @@
+{
+   "info": {
+       "docs_url": "http://www.geojeff.org/software/kotti_fruits_example/documentation",
+       "requires_python": null,
+       "maintainer_email": geojeff@me.com,
+       "keywords": "kotti web cms wcms pylons pyramid sqlalchemy bootstrap example",
+       "package_url": "http://github.com/geojeff/kotti_fruits_example",
+       "author": "Jeff Pittman",
+       "author_email": "geojeff@me.com",
+       "version": "0.1",
+       "release_url": "http://www.geojeff.org/software/releases/0.1",
+       "_pypi_ordering": 0,
+       "bugtrack_url": "http://github.com/geojeff/kotti_fruits_example/issues",
+       "name": "kotti_fruits_example",
+       "license": "BSD-derived (http://www.repoze.org/LICENSE.txt)",
+       "summary": "kotti_fruits_example is a simple example website and fixtures data for Kotti.",
+       "home_page": "http://www.geojeff.org/software/kotti_fruits_example",
+   },
+   "urls": [
+       {
+           "upload_time": "2012-08-30T11:59:58",
+           "url": "http://www.geojeff.org/software/releases/0.1/kotti_fruits_example-0.1.tar.gz",
+           "md5_digest": "27904cea33fe5d14d07ebcdf57f8df1d",
+           "downloads": 1,
+           "filename": "kotti_fruits_example-0.1.tar.gz",
+           "size": 221368
+       }
+   ]
+}
