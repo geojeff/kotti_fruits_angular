@@ -14,7 +14,7 @@
        "name": "kotti_fruits_example",
        "license": "BSD-derived (http://www.repoze.org/LICENSE.txt)",
        "summary": "kotti_fruits_example is a simple example website and fixtures data for Kotti.",
-       "home_page": "http://www.geojeff.org/software/kotti_fruits_example",
+       "home_page": "http://www.geojeff.org/software/kotti_fruits_example"
    },
    "urls": [
        {
