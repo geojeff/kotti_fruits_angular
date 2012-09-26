@@ -1,6 +1,6 @@
 {
    "info": {
-       "docs_url": "http://www.geojeff.org/software/kotti_fruits_example/documentation",
+       "docs_url": "http://github.com/geojeff/kotti_fruits_example",
        "requires_python": null,
        "maintainer_email": "geojeff@me.com",
        "keywords": "kotti web cms wcms pylons pyramid sqlalchemy bootstrap example",
