@@ -9,19 +9,87 @@ from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 
+from zope.interface import implements
+
 from kotti import DBSession
 from kotti.security import SITE_ACL
 from kotti.resources import Node
 from kotti.resources import Content
+from kotti.resources import Document
 from kotti.resources import Image
-from kotti.populate import populate as kotti_populate
+from kotti.resources import IDefaultWorkflow
+from kotti.populate import populate_users
+from kotti.workflow import get_workflow
 
 from kotti_fruits.static import images
+
+from kotti_fruits import _
 
 from fixtures import fruit_categories, fruit_data
 
 
+_ROOT_ATTRS = dict(
+    name=u'',  # (at the time of writing) root must have empty name!
+    title=u'Welcome to Fruits',
+    description=u'Your place for fruit data.',
+    body=u"""
+<h2>Log in</h2>
+<p>
+    You can <a class="btn btn-success" href="login">log in</a> to your site
+    and start changing its contents.  If you haven't chosen a password for
+    your admin account yet, it'll likely be <em>qwerty</em>.
+</p>
+<p>
+    Once you're logged in, you'll see the grey editor bar below the top
+    navigation bar.  It will allow you to switch between editing and viewing the
+    current page as it will appear to your visitors.
+</p>
+<div class="row">
+    <div class="span4">
+        <h2>Configure</h2>
+        <p>
+            Find out how to configure your Kotti's title and many other settings using a
+            simple text file in your file system.
+        </p>
+        <p>
+            <a class="btn btn-info"
+               href="http://kotti.readthedocs.org/en/latest/developing/configuration.html">
+               Configuration manual
+            </a>
+        </p>
+    </div>
+    <div class="span4">
+        <h2>Add-ons</h2>
+        <p>
+            A number of add-ons allow you to extend the functionality of your Kotti site.
+        </p>
+        <p>
+            <a class="btn btn-info"
+               href="http://pypi.python.org/pypi?%3Aaction=search&amp;term=kotti">
+                Kotti add-ons
+            </a>
+        </p>
+    </div>
+    <div class="span4">
+        <h2>Documentation</h2>
+        <p>
+            Wonder what more you can do with Kotti?  What license it has?  Read the
+            manual for more information.
+        </p>
+        <p>
+            <a class="btn btn-info"
+               href="http://kotti.readthedocs.org/en/latest/">
+               Documentation
+            </a>
+        </p>
+    </div>
+</div>
+""")
+
+
 class FruitCategoriesFolder(Content):
+    implements(IDefaultWorkflow)
+
     id = Column(Integer(), ForeignKey('contents.id'), primary_key=True)
 
     type_info = Content.type_info.copy(
@@ -29,13 +97,18 @@ class FruitCategoriesFolder(Content):
         title=u'FruitCategoriesFolder',
         add_view=u'add_fruit_categories_folder',
         addable_to=[u'Document', u'FruitCategoriesFolder'],
-        )
+        selectable_default_views=[
+            ('alternative-view', _(u"Alternative View")),
+        ]
+    )
 
     def __init__(self, **kwargs):
         super(FruitCategoriesFolder, self).__init__(**kwargs)
 
 
 class FruitCategory(Content):
+    implements(IDefaultWorkflow)
+
     id = Column(Integer(), ForeignKey('contents.id'), primary_key=True)
 
     fruit_categories_folder_id = Column(Integer(), ForeignKey('nodes.id'))
@@ -49,7 +122,10 @@ class FruitCategory(Content):
         title=u'FruitCategory',
         add_view=u'add_fruit_category',
         addable_to=[u'FruitCategoriesFolder'],
-        )
+        selectable_default_views=[
+            ('alternative-view', _(u"Alternative View")),
+        ]
+    )
 
     def __init__(self, **kwargs):
         super(FruitCategory, self).__init__(**kwargs)
@@ -109,16 +185,27 @@ class FruitCategory(Content):
         fruit_category.__acl__ = SITE_ACL
         session = DBSession()
         session.add(fruit_category)
+
+        workflow = get_workflow(fruit_category)
+        if workflow:
+            session.flush()
+            workflow.transition_to_state(fruit_category, None, u'public')
+        else:
+            print '################ NO WORKFLOW for ', fruit_category.title
+
         session.flush()
         transaction.commit()
+
         fruit_category = \
                 DBSession.query(FruitCategory).filter_by(name=name).first()
-        ret = {u'id': fruit_category.id,
-               u'title': fruit_category.title}
-        return ret
+
+        return {u'id': fruit_category.id,
+                u'title': fruit_category.title}
 
 
 class Fruit(Content):
+    implements(IDefaultWorkflow)
+
     id = Column(Integer(), ForeignKey('contents.id'), primary_key=True)
 
     calories              = Column(Integer(), info='Calories')
@@ -151,7 +238,10 @@ class Fruit(Content):
         title=u'Fruit',
         add_view=u'add_fruit',
         addable_to=[u'FruitCategory'],
-        )
+        selectable_default_views=[
+            ('alternative-view', _(u"Alternative View")),
+        ]
+    )
 
     def __init__(self, calories=0, calories_from_fat=0, total_fat_g=0,
                  total_fat_dv=0, sodium_mg=0, sodium_dv=0, potassium_mg=0,
@@ -233,13 +323,22 @@ class Fruit(Content):
         fruit.__acl__ = SITE_ACL
         session = DBSession()
         session.add(fruit)
+
+        workflow = get_workflow(fruit)
+        if workflow:
+            session.flush()
+            workflow.transition_to_state(fruit, None, u'public')
+        else:
+            print '################ NO WORKFLOW for ', fruit.title
+
         session.flush()
         transaction.commit()
+
         fruit = DBSession.query(Fruit).filter_by(name=name).first()
-        ret = {u'id': fruit.id,
-               u'title': fruit.title,
-               u'fruit_category': fruit.__parent__.id}
-        return ret
+
+        return {u'id': fruit.id,
+                u'title': fruit.title,
+                u'fruit_category': fruit.__parent__.id}
 
 
 def get_root(request=None):
@@ -273,9 +372,21 @@ def fruit_data_args_dict(fruit_name, fruit_category_obj):
 
 
 def populate():
+
     session = DBSession()
+
     if session.query(Node).count() == 0:
-        kotti_populate()
+
+        root = Document(**_ROOT_ATTRS)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)
+
+        wf = get_workflow(root)
+        if wf is not None:
+            DBSession.flush()  # Initializes workflow
+            wf.transition_to_state(root, None, u'public')
+
+        populate_users()
 
         root_document = \
                 session.query(Content).filter(Content.parent_id==None).first()
@@ -283,11 +394,20 @@ def populate():
         fruit_categories_folder = \
                 FruitCategoriesFolder(name=u"fruit_categories_folder",
                                       title=u"Fruit Categories Folder",
-                                      in_navigation=False,
+                                      in_navigation=True,
                                       parent=root_document)
 
         fruit_categories_folder.__acl__ = SITE_ACL
         session.add(fruit_categories_folder)
+
+        workflow = get_workflow(fruit_categories_folder)
+        if workflow:
+            DBSession.flush()
+            workflow.transition_to_state(fruit_categories_folder, None, u'public')
+        else:
+            print '################ NO WORKFLOW for ', fruit_categories_folder.title
+
+        print 'fruit_categories_folder'
 
         folder = \
                 session.query(Content).filter_by(
@@ -299,10 +419,20 @@ def populate():
                 FruitCategory(name=fruit_categories[fruit_category]['name'],
                               title=fruit_categories[fruit_category]['name'],
                               parent=folder)
+            print 'fruit category'
 
         for key in fruit_category_instances:
             fruit_category_instances[key].__acl__ = SITE_ACL
             session.add(fruit_category_instances[key])
+
+            workflow = get_workflow(fruit_category_instances[key])
+            if workflow:
+                DBSession.flush()
+                workflow.transition_to_state(fruit_category_instances[key], None, u'public')
+            else:
+                print '################ NO WORKFLOW for ', fruit_category_instances[key].title
+
+            print 'fruit category ACL'
 
         fruit_instances = {}
         for fruit_category in fruit_categories:
@@ -313,24 +443,38 @@ def populate():
                 fruit_instances[fruit_name] = \
                     Fruit(**fruit_data_args_dict(fruit_name,
                                                  fruit_category_obj))
+                print 'fruit'
 
         for key in fruit_instances:
             fruit_instances[key].__acl__ = SITE_ACL
             session.add(fruit_instances[key])
 
-            # images have filenames with format: apple.256.jpg
-            for size in [32, 64, 128, 256, 512]:
-                image_filename = "{0}.{1}.jpg".format(key, size)
-                image_path = os.path.join(os.path.dirname(images.__file__),
-                                          image_filename)
-                image = open(image_path, 'rb').read()
-                fruit_instances[key][image_filename] = \
-                        Image(image,
-                              image_filename,
-                              u"image/jpeg",
-                              title=image_filename)
-                fruit_instances[key][image_filename].__acl__ = SITE_ACL
-                session.add(fruit_instances[key][image_filename])
+            workflow = get_workflow(fruit_instances[key])
+            if workflow:
+                DBSession.flush()
+                workflow.transition_to_state(fruit_instances[key], None, u'public')
+            else:
+                print '################ NO WORKFLOW for ', fruit_instances[key].title
+
+            print 'fruit ACL'
+
+            # Images have filenames with format: apple.256.jpg. We will use
+            # the largest, at 512 pixels, from choices of 32, 64, 128, 256,
+            # and 512.
+            size = 512
+            image_filename = "{0}.{1}.jpg".format(key, size)
+            image_path = os.path.join(os.path.dirname(images.__file__),
+                                      image_filename)
+            image = open(image_path, 'rb').read()
+            fruit_instances[key][image_filename] = \
+                    Image(image,
+                          image_filename,
+                          u"image/jpeg",
+                          title=image_filename)
+            fruit_instances[key][image_filename].__acl__ = SITE_ACL
+            session.add(fruit_instances[key][image_filename])
+
 
     session.flush()
     transaction.commit()
+    print 'after transaction.commit()'
