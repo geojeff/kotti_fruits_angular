@@ -20,6 +20,16 @@ from kotti_fruits.resources import FruitCategory
 from kotti_fruits.resources import Fruit
 from kotti_fruits.fanstatic import kotti_fruits
 
+from js.angular import angular
+
+
+@view_config(route_name ='index',
+             permission='view',
+             renderer = "kotti_fruits:templates/index.pt")
+def index(self):
+    angular.need()
+    return {}
+
 
 ##########################
 #  FruitCategoriesFolder

@@ -1,5 +1,13 @@
-kotti_fruits_example
+kotti_fruits_angular
 ====================
+
+This is a modification of kotti_fruits_example to use angular.js.
+
+Do::
+
+    pip install js.angular
+
+README from kotti_fruits_example:
 
 An example Kotti project using a dataset about fruits, containing images from
 Wikipedia.

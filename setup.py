@@ -31,7 +31,7 @@ setup(
     keywords='kotti theme',
     author='Jeff Pittman',
     author_email='geojeff@geojeff.org',
-    url='https://github.com/geojeff/kotti_fruits_example',
+    url='https://github.com/geojeff/kotti_fruits_angular',
     license='BSD',
     packages=find_packages(),
     include_package_data=True,

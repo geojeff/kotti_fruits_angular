@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      metal:use-macro="api.macro('kotti:templates/view/master.pt')">
+
+  <article metal:fill-slot="content" class="content">
+    <my-widget>
+      <div id="one" class="box"></div>
+      <div id="two" class="box"></div>    
+    </my-widget>
+  </article>
+
+</html>
+
