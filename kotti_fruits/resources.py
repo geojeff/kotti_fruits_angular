@@ -407,8 +407,6 @@ def populate():
         else:
             print '################ NO WORKFLOW for ', fruit_categories_folder.title
 
-        print 'fruit_categories_folder'
-
         folder = \
                 session.query(Content).filter_by(
                         name=u"fruit_categories_folder").first()
@@ -419,7 +417,6 @@ def populate():
                 FruitCategory(name=fruit_categories[fruit_category]['name'],
                               title=fruit_categories[fruit_category]['name'],
                               parent=folder)
-            print 'fruit category'
 
         for key in fruit_category_instances:
             fruit_category_instances[key].__acl__ = SITE_ACL
@@ -432,8 +429,6 @@ def populate():
             else:
                 print '################ NO WORKFLOW for ', fruit_category_instances[key].title
 
-            print 'fruit category ACL'
-
         fruit_instances = {}
         for fruit_category in fruit_categories:
             fruit_category_obj = \
@@ -443,7 +438,6 @@ def populate():
                 fruit_instances[fruit_name] = \
                     Fruit(**fruit_data_args_dict(fruit_name,
                                                  fruit_category_obj))
-                print 'fruit'
 
         for key in fruit_instances:
             fruit_instances[key].__acl__ = SITE_ACL
@@ -455,8 +449,6 @@ def populate():
                 workflow.transition_to_state(fruit_instances[key], None, u'public')
             else:
                 print '################ NO WORKFLOW for ', fruit_instances[key].title
-
-            print 'fruit ACL'
 
             # Images have filenames with format: apple.256.jpg. We will use
             # the largest, at 512 pixels, from choices of 32, 64, 128, 256,
@@ -477,4 +469,3 @@ def populate():
 
     session.flush()
     transaction.commit()
-    print 'after transaction.commit()'

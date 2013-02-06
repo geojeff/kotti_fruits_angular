@@ -312,6 +312,5 @@ def includeme_single_view(config):
 
 
 def includeme(config):
-    print 'views.includeme', config
     includeme_bunch_view(config)
     includeme_single_view(config)
