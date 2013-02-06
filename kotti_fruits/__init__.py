@@ -32,6 +32,6 @@ def includeme(config):
     config.add_translation_dirs('kotti_fruits:locale')
     config.scan(__name__)
 
-    config.add_route('index', '/*more', pregenerator=automore)
+    #config.add_route('index', '/*more', pregenerator=automore)
 
     fruits_includeme(config)

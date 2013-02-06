@@ -1,19 +1,19 @@
 /* Put your content type specific Javascript here. */
 
-$(function() {
-    alert('Hello World!');
-});
-
 var myApp = angular.module('myApp', []);
 
+console.log('hey 0');
 myApp.directive('myWidget', function() {
     var linkFn;
+    console.log('hey 1');
     linkFn = function(scope, element, attrs) {
         var animateDown, animateRight, pageOne, pageTwo;
+        console.log('hey 2');
         pageOne = angular.element(element.children()[0]);
         pageTwo = angular.element(element.children()[1]);
 
         animateDown = function() {
+            console.log('hey 3');
             $(this).animate({
                 top: '+=50'
             });

@@ -4,6 +4,7 @@ from fanstatic import Group
 from fanstatic import Library
 from fanstatic import Resource
 from js.jquery import jquery
+from js.angular import angular
 
 
 library = Library('kotti_fruits', 'static')
@@ -18,7 +19,7 @@ js = Resource(
     library,
     'js/script.js',
     minified='js/script.min.js',
-    depends=[jquery, ]
+    depends=[jquery, angular]
 )
 
 kotti_fruits = Group([css, js, ])
