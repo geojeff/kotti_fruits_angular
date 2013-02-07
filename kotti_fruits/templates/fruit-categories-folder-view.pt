@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       metal:use-macro="api.macro('kotti:templates/view/master.pt')">
 
-  <article metal:fill-slot="content" ng-app="myApp" class="fruit-categories_folder-view content">
+  <article metal:fill-slot="content" class="fruit-categories_folder-view content">
     <h1>${context.title}</h1>
     <p class="description">
       ${context.description}
@@ -14,11 +14,6 @@
           </a>
         </li>
     </ul>
-
-    <my-widget>
-      <div id="one" class="box"></div>
-      <div id="two" class="box"></div>    
-    </my-widget>
 
   </article>
 

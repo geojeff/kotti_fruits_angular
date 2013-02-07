@@ -21,12 +21,21 @@ from kotti_fruits.resources import Fruit
 from kotti_fruits.fanstatic import kotti_fruits
 
 
-#@view_config(route_name ='index',
-#             permission='view',
-#             renderer = "kotti_fruits:templates/index.pt")
-#def index(self):
-#    angular.need()
-#    return {}
+class AppView(object):
+
+    def __init__(self, context, request):
+
+        self.context = context
+        self.request = request
+
+    @view_config(name='app',
+                 permission='view',
+                 renderer='templates/app.pt')
+    def view(self):
+
+        kotti_fruits.need()
+
+        return {}
 
 
 ##########################
@@ -68,8 +77,6 @@ class FruitCategoriesFolderView(object):
     @view_config(name='view',
                  renderer='kotti_fruits:templates/fruit-categories-folder-view.pt')
     def view(self):
-
-        kotti_fruits.need()
 
         session = DBSession()
         query = session.query(FruitCategory)\

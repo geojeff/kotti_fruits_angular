@@ -13,6 +13,7 @@ from zope.interface import implements
 
 from kotti import DBSession
 from kotti.security import SITE_ACL
+from kotti.resources import get_root
 from kotti.resources import Node
 from kotti.resources import Content
 from kotti.resources import Document
@@ -41,48 +42,14 @@ _ROOT_ATTRS = dict(
 </p>
 <p>
     Once you're logged in, you'll see the grey editor bar below the top
-    navigation bar.  It will allow you to switch between editing and viewing the
-    current page as it will appear to your visitors.
+    navigation bar.  It will allow you to switch between editing and viewing
+    the current page as it will appear to your visitors.
 </p>
 <div class="row">
-    <div class="span4">
-        <h2>Configure</h2>
-        <p>
-            Find out how to configure your Kotti's title and many other settings using a
-            simple text file in your file system.
-        </p>
-        <p>
-            <a class="btn btn-info"
-               href="http://kotti.readthedocs.org/en/latest/developing/configuration.html">
-               Configuration manual
-            </a>
-        </p>
-    </div>
-    <div class="span4">
-        <h2>Add-ons</h2>
-        <p>
-            A number of add-ons allow you to extend the functionality of your Kotti site.
-        </p>
-        <p>
-            <a class="btn btn-info"
-               href="http://pypi.python.org/pypi?%3Aaction=search&amp;term=kotti">
-                Kotti add-ons
-            </a>
-        </p>
-    </div>
-    <div class="span4">
-        <h2>Documentation</h2>
-        <p>
-            Wonder what more you can do with Kotti?  What license it has?  Read the
-            manual for more information.
-        </p>
-        <p>
-            <a class="btn btn-info"
-               href="http://kotti.readthedocs.org/en/latest/">
-               Documentation
-            </a>
-        </p>
-    </div>
+<p>
+    kotti_fruits_angular is a modification of kotti_fruits_example to show how
+    angular.js can be used with Kotti as a REST server.
+</p>
 </div>
 """)
 
@@ -341,11 +308,6 @@ class Fruit(Content):
                 u'fruit_category': fruit.__parent__.id}
 
 
-def get_root(request=None):
-    session = DBSession()
-    return session.query(Content).filter(Content.parent_id==None).first()
-
-
 def fruit_data_args_dict(fruit_name, fruit_category_obj):
     f = fruit_data[fruit_name]
     return {'name': fruit_name,
@@ -380,6 +342,8 @@ def populate():
         root = Document(**_ROOT_ATTRS)
         root.__acl__ = SITE_ACL
         DBSession.add(root)
+
+        root.default_view = u'app'
 
         wf = get_workflow(root)
         if wf is not None:
