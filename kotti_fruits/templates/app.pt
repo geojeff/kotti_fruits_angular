@@ -9,7 +9,7 @@
       <div id="two" class="box"></div>    
     </my-widget>
 
-    <div class="container-fluid">
+    <div class="container-fluid" ng-controller="FruitsListCtrl">
       <div class="row-fluid">
         <div class="span2">
           <!--Sidebar content-->
@@ -22,7 +22,7 @@
           </select>
 
         </div>
-        <div class="span10" ng-controller="FruitsListCtrl">
+        <div class="span10">
           <!--Body content-->
 
           <ul class="fruits">
