@@ -22,4 +22,18 @@ js = Resource(
     depends=[jquery, angular]
 )
 
-kotti_fruits = Group([css, js, ])
+fruit_categories_js = Resource(
+    library,
+    'js/controllers/fruit_categories_list.js',
+    #minified='js/controllers/fruit_categories_list.min.js',
+    depends=[angular]
+)
+
+fruits_js = Resource(
+    library,
+    'js/controllers/fruits_list.js',
+    #minified='js/controllers/fruits_list.min.js',
+    depends=[angular]
+)
+
+kotti_fruits = Group([css, js, fruit_categories_js, fruits_js,])

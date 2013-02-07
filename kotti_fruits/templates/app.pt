@@ -9,6 +9,31 @@
       <div id="two" class="box"></div>    
     </my-widget>
 
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span2">
+          <!--Sidebar content-->
+
+          Search: <input ng-model="query">
+          Sort by:
+          <select ng-model="orderProp">
+            <option value="name">Alphabetical</option>
+            <option value="calories">Most caloric</option>
+          </select>
+
+        </div>
+        <div class="span10" ng-controller="FruitsListCtrl">
+          <!--Body content-->
+
+          <ul class="fruits">
+            <li ng-repeat="fruit in fruits | filter:query | orderBy:orderProp">
+              <a href="#/fruits/{{fruit.id}}">{{fruit.name}}</a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
   </article>
 
 </html>
