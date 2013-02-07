@@ -2,38 +2,95 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       metal:use-macro="api.macro('kotti:templates/view/master.pt')">
 
-  <article metal:fill-slot="content" ng-app="myApp" class="document-view content">
+  <article metal:fill-slot="content" ng-app="myApp" class="document-view content" ng-controller="FruitCategoriesListCtrl">
 
-    <my-widget>
-      <div id="one" class="box"></div>
-      <div id="two" class="box"></div>    
-    </my-widget>
+      <div ng-controller="FruitsListCtrl">
 
-    <div class="container-fluid" ng-controller="FruitsListCtrl">
-      <div class="row-fluid">
-        <div class="span2">
-          <!--Sidebar content-->
-
+        <div>
           Search: <input ng-model="query">
           Sort by:
           <select ng-model="orderProp">
             <option value="name">Alphabetical</option>
-            <option value="calories">Most caloric</option>
+            <option value="fruit_category">Category</option>
+            <option value="calories">Calories</option>
+            <option value="calories_from_fat">Calories from fat</option>
+            <option value="total_fat_g">Total fat g</option>
+            <option value="total_fat_dv">Total fat dv</option>
+            <option value="sodium_mg">Sodium mg</option>
+            <option value="sodium_dv">Sodium dv</option>
+            <option value="potassium_mg">Potassium mg</option>
+            <option value="potassium_dv">Potassium dv</option>
+            <option value="total_carbohydrate_g">Total Carbohydrate g</option>
+            <option value="total_carbohydrate_dv">Total Carbohydrate dv</option>
+            <option value="dietary_fiber_g">Dietary Fiber g</option>
+            <option value="dietary_fiber_dv">Dietary Fiber dv</option>
+            <option value="sugars_g">Sugars g</option>
+            <option value="protein_g">Protein g</option>
+            <option value="vitamin_a_dv">Vitamin A dv</option>
+            <option value="vitamin_c_dv">Vitamin C dv</option>
+            <option value="calcium_dv">Calcium dv</option>
+            <option value="iron_dv">Iron dv</option>
           </select>
-
         </div>
-        <div class="span10">
-          <!--Body content-->
 
-          <ul class="fruits">
-            <li ng-repeat="fruit in fruits | filter:query | orderBy:orderProp">
-              <a href="#/fruits/{{fruit.id}}">{{fruit.name}}</a>
-            </li>
-          </ul>
-
-        </div>
+        <table class="fruits">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Pic</th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Cal.</th>
+              <th>Cal. fat</th>
+              <th>Total fat g</th>
+              <th>Total fat dv</th>
+              <th>Na mg</th>
+              <th>Na dv</th>
+              <th>K mg</th>
+              <th>K dv</th>
+              <th>Total carb. g</th>
+              <th>Total carb. dv</th>
+              <th>Diet. fiber g</th>
+              <th>Diet. fiber dv</th>
+              <th>Sugars g</th>
+              <th>Protein g</th>
+              <th>Vit. A dv</th>
+              <th>Vit. C dv</th>
+              <th>Ca dv</th>
+              <th>Fe dv</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="fruit in fruits | filter:query | orderBy:orderProp" class="table table-bordered"
+                tal:define="fruit_url '/fruit_categories_folder/{{fruit.fruit_category}}/{{fruit.name}}';
+                            fruit_image_url fruit_url + '/{{fruit.name}}.512.jpg/image/span1'">
+              <td>{{fruit.fruit_category}}</td>
+              <td><a href="${fruit_url}" class="thumb"><img ng-src="${fruit_image_url}"></a></td>
+              <td><a href="#/fruits/{{fruit.id}}">{{fruit.id}}</a></td>
+              <td><a href="${fruit_url}">{{fruit.name}}</a></td>
+              <td>{{fruit.calories}}</td>
+              <td>{{fruit.calories_from_fat}}</td>
+              <td>{{fruit.total_fat_g}}</td>
+              <td>{{fruit.total_fat_dv}}</td>
+              <td>{{fruit.sodium_mg}}</td>
+              <td>{{fruit.sodium_dv}}</td>
+              <td>{{fruit.potassium_mg}}</td>
+              <td>{{fruit.potassium_dv}}</td>
+              <td>{{fruit.total_carbohydrate_g}}</td>
+              <td>{{fruit.total_carbohydrate_dv}}</td>
+              <td>{{fruit.dietary_fiber_g}}</td>
+              <td>{{fruit.dietary_fiber_dv}}</td>
+              <td>{{fruit.sugars_g}}</td>
+              <td>{{fruit.protein_g}}</td>
+              <td>{{fruit.vitamin_a_dv}}</td>
+              <td>{{fruit.vitamin_c_dv}}</td>
+              <td>{{fruit.calcium_dv}}</td>
+              <td>{{fruit.iron_dv}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
+
   </article>
 
 </html>

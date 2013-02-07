@@ -241,6 +241,7 @@ class Fruit(Content):
 
     def make_record(r):
         return {u'fruit_category_id': r.__parent__.id,
+                u'fruit_category': r.__parent__.title,
                 u'id': r.id,
                 u'name': r.name,
                 u'title': r.title,
@@ -416,7 +417,7 @@ def populate():
 
             # Images have filenames with format: apple.256.jpg. We will use
             # the largest, at 512 pixels, from choices of 32, 64, 128, 256,
-            # and 512.
+            # and 512, and let Kotti handle sizing for thumbnails.
             size = 512
             image_filename = "{0}.{1}.jpg".format(key, size)
             image_path = os.path.join(os.path.dirname(images.__file__),

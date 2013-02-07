@@ -328,6 +328,16 @@ def includeme_single_view(config):
                     renderer='json')
 
 
+@view_config(name='images',
+             renderer='kotti_fruits:templates/app.pt')
+def images(self):
+
+    settings = self.request.registry.settings
+    items = self.news_items(settings['kotti_fruits.widget.num_fruits'])
+
+    return {'items': items}
+
+
 def includeme(config):
     includeme_bunch_view(config)
     includeme_single_view(config)
